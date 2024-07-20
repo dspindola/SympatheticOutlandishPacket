@@ -1,6 +1,8 @@
-run = "bun run dev:client"
-entrypoint = "./apps/client/server.ts"
+run = ["bun", "run", "--cwd=./apps/client", "dev"]
+entrypoint = "./codepark.shell.ts"
 modules = ["typescript-language-server"]
+
+compile = ["bun", "run", "--cwd=./apps/client", "build"]
 
 [nix]
 channel = "stable-24_05"
@@ -11,7 +13,7 @@ XDG_CACHE_HOME = "/home/runner/$REPL_SLUG/.cache"
 PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/.config/.bun/bin:$PATH"
 npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
 BUN_INSTALL = "/home/runner/$REPL_SLUG/.config/.bun"
-
+FORCE_COLOR = "1"
 
 [packager]
 language = "bun"
@@ -44,7 +46,6 @@ pattern = "**/{*.json}"
 [languages.json.languageServer]
 start = ["vscode-json-language-server", "--stdio"]
 
-
 [languages.css]
 pattern = "**/{*.css}"
 [languages.css.languageServer]
@@ -54,7 +55,6 @@ start = ["vscode-css-language-server", "--stdio"]
 pattern = "**/{*.md}"
 [languages.markdown.languageServer]
 start = ["vscode-markdown-language-server", "--stdio"]
-
 
 [languages.zig]
 pattern = "**/{*.zig}"

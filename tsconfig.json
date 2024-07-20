@@ -1,28 +1,9 @@
 {
-"$schema": "https://json.schemastore.org/tsconfig",
-  "compilerOptions": {
-    "lib": ["ESNext", "DOM"],
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleDetection": "force",
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
-    "allowJs": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    "strict": true,
-    "composite": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "emitBOM": true,
-    "baseUrl": "./",
-    "paths": {
-      "~/*": ["./*"]
-    },
-    "isolatedModules": true
-  },
-  "references": [{
-    "path": "./apps/client"
-  }]
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/client"
+    }
+  ]
 }

@@ -1,27 +1,24 @@
-// import replitConfig from "./.replit"
+import type { ModuleTypes } from "./.codepark/types/replit-config.gen";
 
+async function generateTypes(obj: any, moduleId: string) {
+  const module = Bun.inspect(obj);
+  const template = `
+	export interface ModuleTypes ${module}
 
-// function generateTypes(obj: any, moduleId: string) {
-// 	const module = Bun.inspect(obj)
-// 	const template = `
-// 	export interface ModuleTypes ${module}
+	declare module "$/${moduleId}"{
+		interface ModuleTypes ${module}
+	}`;
 
-// 	declare module "$/${moduleId}"{
-// 		interface ModuleTypes ${module}
-// 	}`
-// 	console.log(template)
-// 	Bun.write(`./.codepark/types/${moduleId}`, template)
-// }
+  await Bun.write(`.codepark/types/${moduleId}`, template);
+}
 
-// generateTypes(replitConfig, "replit-config.gen.d.ts")
-// generateTypes(process.env, "repl-env.gen.d.ts")
+await generateTypes(
+  Bun.TOML.parse(await Bun.file("./.replit").text()),
+  "replit-config.gen.d.ts"
+);
 
-// const cwd = Bun.env.REPL_HOME;
+await generateTypes(process.env, "repl-env.gen.d.ts");
 
-// const workspace = new Bun.Glob("{apps,packages}/**/package.json").scanSync({
-// 	cwd
-// });
+const config = Bun.TOML.parse(await Bun.file(".replit").text()) as ModuleTypes;
 
-// const scannedFiles = Array.from(workspace)
-
-// console.log(scannedFiles)
+export default { repl: config };

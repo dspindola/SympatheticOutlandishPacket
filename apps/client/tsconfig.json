@@ -10,7 +10,6 @@
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
-    "noEmit": true,
     "strict": true,
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
@@ -20,11 +19,13 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
-      "$/app/setup": ["./__setup.ts"],
-      "$/app/server": ["./__setup.ts"],
+      "$/app/setup": ["app.setup.ts"],
       "$/server/entry": ["./src/entry.server.tsx"],
-      "$/app": ["./app.ts"],
+      "$/app/entry": ["app.entry.ts"],
+      "$/app/server": ["app.server.ts"],
       "$/app/router": ["./src/router.ts"]
-    }
-  }
+    },
+    "noEmit": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
 }

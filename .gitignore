@@ -177,3 +177,5 @@ dist
 **/.codepark/*
 .env.local
 bun.lockb
+
+.vscode

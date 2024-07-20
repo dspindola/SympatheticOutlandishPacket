@@ -1,6 +1,5 @@
 {
   "name": "client",
-  "main": "./__server.ts",
   "type": "module",
   "dependencies": {
     "@elysiajs/cors": "^1.1.0",
@@ -23,6 +22,7 @@
     "@types/bun": "latest"
   },
   "scripts": {
-    "dev": "bun run --port=8080 --watch ./__server.ts"
+    "dev": "bun run --watch ./app.server.ts",
+    "build": "bun build ./app.server.ts --outdir=./dist/server --format=esm --target=bun"
   }
 }

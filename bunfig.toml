@@ -1,0 +1,6 @@
+logLevel = "debug"
+telemetry = false
+smol = true
+
+[loader]
+".replit" = "toml"
