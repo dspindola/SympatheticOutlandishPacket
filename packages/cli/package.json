@@ -1,0 +1,6 @@
+{
+	"scripts": {},
+	"type": "module",
+	"name": "cli",
+	"files": ["src/**/*.zig"]
+}

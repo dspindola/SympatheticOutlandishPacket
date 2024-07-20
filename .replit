@@ -1,0 +1,66 @@
+run = "bun run dev:client"
+entrypoint = "./apps/client/server.ts"
+modules = ["typescript-language-server"]
+
+[nix]
+channel = "stable-24_05"
+
+[env]
+XDG_CONFIG_HOME = "/home/runner/$REPL_SLUG/.config"
+XDG_CACHE_HOME = "/home/runner/$REPL_SLUG/.cache"
+PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/.config/.bun/bin:$PATH"
+npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
+BUN_INSTALL = "/home/runner/$REPL_SLUG/.config/.bun"
+
+
+[packager]
+language = "bun"
+
+[packager.features]
+guessImports = true
+enabledForHosting = false
+packageSearch = true
+
+[languages]
+[languages.nushell]
+pattern = "**/{*.nu}"
+
+[languages.nushell.languageServer]
+start = ["nu", "--lsp"]
+
+[languages.javascript]
+pattern = "**/{*.js,*.ts,*.jsx,*.tsx,*.mts,*.mjs,*.cjs}"
+
+[languages.javascript.languageServer]
+start = ["typescript-language-server", "--stdio"]
+
+[languages.html]
+pattern = "**/{*.html}"
+[languages.html.languageServer]
+start = ["vscode-html-language-server", "--stdio"]
+
+[languages.json]
+pattern = "**/{*.json}"
+[languages.json.languageServer]
+start = ["vscode-json-language-server", "--stdio"]
+
+
+[languages.css]
+pattern = "**/{*.css}"
+[languages.css.languageServer]
+start = ["vscode-css-language-server", "--stdio"]
+
+[languages.markdown]
+pattern = "**/{*.md}"
+[languages.markdown.languageServer]
+start = ["vscode-markdown-language-server", "--stdio"]
+
+
+[languages.zig]
+pattern = "**/{*.zig}"
+[languages.zig.languageServer]
+start = ["zls"]
+
+[[ports]]
+localPort = 8080
+externalPort = 80
