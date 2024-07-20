@@ -3,17 +3,16 @@
   "workspaces": [
     "{packages,apps}/**"
   ],
+  "private": true,
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "4.3.0",
     "@types/bun": "latest",
     "@types/prettier": "^3.0.0",
-    "prettier": "^3.3.3",
-    "@trivago/prettier-plugin-sort-imports": "4.3.0"
-  },
-  "peerDependencies": {
-    "typescript": "^5.6.0-dev.20240720"
+    "prettier": "^3.3.3"
   },
   "scripts": {
     "codepark:run": "./codepark.shell.ts run",
-    "codepark:build": "./codepark.shell.ts build"
+    "codepark:build": "./codepark.shell.ts build",
+    "clean": "rm -rf ./.codepark ./node_modules"
   }
 }

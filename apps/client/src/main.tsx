@@ -1,6 +1,10 @@
-import React from "react";
+import React from 'react'
+import { preloadModule } from 'react-dom'
 
 export function App({ children }: { children: React.JSX.Element }) {
+  preloadModule('/t', {
+    as: 'style',
+  })
   return (
     <html lang="en">
       <head>
@@ -13,5 +17,5 @@ export function App({ children }: { children: React.JSX.Element }) {
       </head>
       <body>{children}</body>
     </html>
-  );
+  )
 }

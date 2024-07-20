@@ -1,0 +1,5 @@
+preload = ["./mdx.js"]
+
+[loader]
+".css" = "text"
+".html" = "text"

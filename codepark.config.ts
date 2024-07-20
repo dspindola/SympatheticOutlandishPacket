@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { ModuleTypes } from "./.codepark/types/replit-config.gen";
 
 async function generateTypes(obj: any, moduleId: string) {

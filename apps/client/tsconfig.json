@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "lib": ["ESNext", "DOM"],
     "target": "ESNext",
@@ -21,11 +20,12 @@
       "@/*": ["./src/*"],
       "$/app/setup": ["app.setup.ts"],
       "$/server/entry": ["./src/entry.server.tsx"],
-      "$/app/entry": ["app.entry.ts"],
+      "$/app/entry": ["app.ts"],
       "$/app/server": ["app.server.ts"],
       "$/app/router": ["./src/router.ts"]
     },
-    "noEmit": true
+    "noEmit": true,
+    "outDir": "./dist"
   },
   "include": ["**/*.ts", "**/*.tsx"]
 }

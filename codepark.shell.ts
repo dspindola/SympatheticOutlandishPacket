@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+// @ts-nocheck
 /// <reference path="./.codepark/types/replit-config.gen.d.ts"/>
 /// <reference path="./.codepark/types/repl-env.gen.d.ts"/>
 import codepark from "./codepark.config";
@@ -10,9 +10,9 @@ declare module "bun" {
   }
 }
 
-const target = process.env.REPL_ID ? "replit" : "local";
+export const target = process.env.REPL_ID ? "replit" : "local";
 
-const env = {
+export const env = {
   replit: {
     HOSTNAME: "0.0.0.0",
     PORT: codepark.repl.ports[0].localPort.toString(),
@@ -23,15 +23,9 @@ const env = {
   },
 };
 
-const commands = {
+export const commands = {
   run: codepark.repl.run,
   build: codepark.repl.compile,
 };
 
-const [command, ...args] = process.argv.slice(2);
-
-await Bun.$`${commands[command]}`.env({
-  ...process.env,
-  ...env[target],
-  SHELL_ARGS: Bun.inspect({ args }),
-});
+export const [command, ...args] = process.argv.slice(2);
