@@ -19,7 +19,7 @@ export const env = {
   },
   local: {
     HOSTNAME: "localhost",
-    PORT: "3000",
+    PORT: "8080",
   },
 };
 
