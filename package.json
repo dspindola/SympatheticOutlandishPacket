@@ -11,8 +11,8 @@
     "prettier": "^3.3.3"
   },
   "scripts": {
-    "codepark:run": "./codepark.shell.ts run",
-    "codepark:build": "./codepark.shell.ts build",
+    "dev": "bun ./codepark.ts run --mode=dev",
+    "build": "./codepark.shell.ts build",
     "clean": "rm -rf ./.codepark ./node_modules"
   }
 }
