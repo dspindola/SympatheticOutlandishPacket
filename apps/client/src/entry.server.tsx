@@ -1,11 +1,6 @@
 import type { FileSystemRouter, MatchedRoute } from 'bun'
 import type { Context } from 'elysia'
-import {
-  renderToReadableStream,
-  renderToStaticMarkup,
-  renderToString,
-} from 'react-dom/server'
-import { App } from './main'
+import { renderToReadableStream, renderToStaticMarkup } from 'react-dom/server'
 import type React from 'react'
 import { Layout } from './layout'
 
@@ -14,33 +9,19 @@ type Ctx = Context & { router: FileSystemRouter }
 export async function handleRequest(ctx: Ctx) {
   const { Route, type } = await match(ctx.path, ctx.router)
 
-  const res = await renderStream(Route, { type })
+  const res = await render(Route, { type })
 
-  return mapResponse(res, 'text/html', type)
+  return mapResponse(res, type)
 }
 
-async function mapResponse(
-  res: Response,
-  responseType: string,
-  moduleType: string
-) {
+async function mapResponse(res: Response, moduleType: string) {
   switch (moduleType) {
     case 'text/javascript;charset=utf-8':
-      return res
     case 'text/mdx':
-      return res
     case 'text/css;charset=utf-8':
-      return new Response(res.body, {
-        headers: {
-          'Content-Type': 'text/css',
-        },
-      })
+    case 'text/html;charset=utf-8':
     default:
-      return new Response(res.body, {
-        headers: {
-          'Content-Type': responseType,
-        },
-      })
+      return res
   }
 }
 
@@ -96,48 +77,75 @@ export async function match(path: string, router: FileSystemRouter) {
   }
 }
 
-export async function renderStream(
+export async function render(
   Component: () => React.ReactElement,
   { type }: { type: string }
 ) {
-  console.log(type)
-  if (type === 'text/css;charset=utf-8') {
-    return new Response(renderToStaticMarkup(<Component />), {
-      headers: {
-        'Content-Type': 'text/css',
-      },
-    })
-  }
-
   if (type === 'text/mdx') {
-    const stream = await renderToReadableStream(
-      <Layout>
-        <Component />
-      </Layout>
-    )
-    await stream.allReady
-    return new Response(stream)
+    return await renderMdx(Component)
   }
 
   if (type === 'text/javascript;charset=utf-8') {
-    const stream = await renderToReadableStream(
-      <Layout>
-        <Component />
-      </Layout>
-    )
-    await stream.allReady
-    return new Response(stream)
+    return await renderJs(Component)
   }
 
   if (type === 'text/html;charset=utf-8') {
-    const stream = renderToStaticMarkup(<Component />)
-    return new Response(stream)
+    return await renderHtml(Component)
   }
 
   if (type === 'text/css;charset=utf-8') {
-    const stream = renderToStaticMarkup(<Component />)
-    return new Response(stream)
+    return await renderCss(Component)
   }
 
   throw new Error('not found')
+}
+
+export async function renderHtml(Component: () => React.ReactElement) {
+  const html = renderToStaticMarkup(
+    <Layout>
+      <Component />
+    </Layout>
+  )
+  return new Response(html, {
+    headers: {
+      'Content-Type': 'text/html',
+    },
+  })
+}
+
+export async function renderCss(Component: () => React.ReactElement) {
+  const css = renderToStaticMarkup(<Component />)
+  return new Response(css, {
+    headers: {
+      'Content-Type': 'text/css',
+    },
+  })
+}
+
+export async function renderJs(Component: () => React.ReactElement) {
+  const stream = await renderToReadableStream(
+    <Layout>
+      <Component />
+    </Layout>
+  )
+  await stream.allReady
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/html',
+    },
+  })
+}
+
+export async function renderMdx(Component: () => React.ReactElement) {
+  const stream = await renderToReadableStream(
+    <Layout>
+      <Component />
+    </Layout>
+  )
+  await stream.allReady
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/html',
+    },
+  })
 }

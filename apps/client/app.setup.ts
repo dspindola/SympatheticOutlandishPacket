@@ -1,31 +1,29 @@
-import { Elysia } from "elysia";
-import { cors } from "@elysiajs/cors";
-import { staticPlugin } from "@elysiajs/static";
-import { handleRequest, renderStream, match } from "$/server/entry";
-import { createRouter } from "$/app/router";
+import { Elysia } from 'elysia'
+import { cors } from '@elysiajs/cors'
+import { staticPlugin } from '@elysiajs/static'
+import { handleRequest } from '$/server/entry'
+import { createRouter } from '$/app/router'
 
 const origin = process.env.REPLIT_DEV_DOMAIN
   ? `https://${process.env.REPLIT_DEV_DOMAIN}`
-  : "http://localhost:3000";
-
-console.log(origin);
+  : 'http://localhost:3000'
 
 export const setup = new Elysia()
   .use(cors())
   .use(
     staticPlugin({
-      prefix: "/_static",
-      directive: "public",
+      prefix: '/_static',
+      directive: 'public',
       alwaysStatic: false,
       noCache: true,
     })
   )
   .decorate(
-    "router",
+    'router',
     createRouter({
-      dir: "src/routes",
+      dir: 'src/routes',
       origin,
-      assetPrefix: "/_static/",
+      assetPrefix: '/_static/',
     })
   )
-  .decorate("react", { handleRequest, renderStream, match });
+  .decorate('react', { handleRequest })
